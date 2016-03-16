@@ -1,0 +1,10 @@
+from sfml import *
+
+WINDOW_WIDTH = 760
+WINDOW_HEIGHT = 760
+WINDOW_TITLE = "Go Game"
+WINDOW_STYLE = window.Style.TITLEBAR | window.Style.CLOSE
+
+BLOCK_RADIUS = 20
+CHESS_RADIUS = 18
+POINT_RADIUS = 4
