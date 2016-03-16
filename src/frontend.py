@@ -4,6 +4,11 @@ from defs import *
 
 from sfml import *
 
+current_block = RectangleShape()
+current_block.size = (BLOCK_RADIUS * 2, BLOCK_RADIUS * 2)
+current_block.position = (INVALID_X, INVALID_Y)
+current_block.fill_color = CURRENT_SELECT_COLOR
+
 def do_events(window):
     for event in window.events:
         if type(event) is CloseEvent:
@@ -16,6 +21,7 @@ def do_events(window):
 
         elif type(event) is MouseMoveEvent:
             i, j = board.to_index(event.position.x, event.position.y)
+            current_block.position = board.to_position(i, j, BLOCK_RADIUS)
 
 if __name__ == "__main__":
     window = RenderWindow(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE,  WINDOW_STYLE)
@@ -30,5 +36,9 @@ if __name__ == "__main__":
         do_events(window)
 
         window.clear(Color(205, 154, 61))
+
         board.render_board(window)
+        window.draw(current_block)
+        board.render_chess(window)
+
         window.display()

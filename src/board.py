@@ -13,6 +13,27 @@ chesses = {}
 offest_x = 0
 offest_y = 0
 
+def reverse(color):
+    global NONE
+    global WHITE
+    global BLACK
+
+    if color == NONE:
+        return NONE
+    elif color == WHITE:
+        return BLACK
+    elif color == BLACK: 
+        return WHITE
+
+def to_index(px, py):
+    return (int(px / (2 * BLOCK_RADIUS)) + 1, int(py / (2 * BLOCK_RADIUS)) + 1)
+
+def to_position(x, y, radius = CHESS_RADIUS):
+    return (
+        offest_x + (2 * x - 1) * BLOCK_RADIUS - radius,
+        offest_y + (2 * y - 1) * BLOCK_RADIUS - radius
+    )
+
 def prepare_board(_offest_x = 0, _offest_y = 0):
     global board_grid
     global circles
@@ -92,9 +113,6 @@ def set_chess(x, y, color):
 
     chesses[(x, y)] = chess
 
-def to_index(px, py):
-    return (int(px / (2 * BLOCK_RADIUS)) + 1, int(py / (2 * BLOCK_RADIUS)) + 1)
-
 def render_board(window):
     global board_grid
     global circles
@@ -104,5 +122,6 @@ def render_board(window):
     for circle in circles:
         window.draw(circle)
 
+def render_chess(window):
     for chess in chesses.values():
         window.draw(chess)
