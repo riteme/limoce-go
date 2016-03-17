@@ -25,7 +25,25 @@ def reverse(color):
     elif color == BLACK: 
         return WHITE
 
+def is_inside_board(px, py):
+    global offest_x
+    global offest_y
+
+    px -= offest_x
+    py -= offest_y
+
+    return (
+        0 <= px and px <= 38 * BLOCK_RADIUS and
+        0 <= py and py <= 38 * BLOCK_RADIUS
+    )
+
 def to_index(px, py):
+    global offest_x
+    global offest_y
+
+    px -= offest_x
+    py -= offest_y
+
     return (int(px / (2 * BLOCK_RADIUS)) + 1, int(py / (2 * BLOCK_RADIUS)) + 1)
 
 def to_position(x, y, radius = CHESS_RADIUS):
@@ -88,7 +106,7 @@ def prepare_board(_offest_x = 0, _offest_y = 0):
     for point in POSITIONS:
         x, y = point
 
-        circle = CircleShape()
+        circle = CircleShape(point_count = CIRCLE_POINTS_NUMBER)
         circle.radius = POINT_RADIUS
         circle.fill_color = Color.BLACK
         circle.position = (
@@ -98,12 +116,23 @@ def prepare_board(_offest_x = 0, _offest_y = 0):
 
         circles.append(circle)
 
+def get_chess(x, y):
+    global chesses
+    global NONE
+    global WHITE
+    global BLACK
+
+    if not (x, y) in chesses:
+        return NONE
+
+    return chesses[(x, y)]
+
 def set_chess(x, y, color):
     global chesses
     global offest_x
     global offest_y
 
-    chess = CircleShape()
+    chess = CircleShape(point_count = CIRCLE_POINTS_NUMBER)
     chess.radius = CHESS_RADIUS
     chess.position = (
         offest_x + (2 * x - 1) * BLOCK_RADIUS - CHESS_RADIUS,
