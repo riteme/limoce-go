@@ -1,3 +1,5 @@
+from collections import deque
+
 from defs import *
 
 from sfml import *
@@ -51,6 +53,41 @@ def to_position(x, y, radius = CHESS_RADIUS):
         offest_x + (2 * x - 1) * BLOCK_RADIUS - radius,
         offest_y + (2 * y - 1) * BLOCK_RADIUS - radius
     )
+
+def is_dead(i, j):
+    global NONE
+    global WHITE
+    global BLACK
+
+    color = get_chess(i, j)
+    q = deque()
+    q.append((i, j))
+
+    while len(q) > 0:
+        x, y = q[0]
+        q.popleft()
+
+        if 1 <= x and x <= 19 and 1 <= y and y <= 19:
+            if get_chess(x, y) == NONE:
+                return False
+            elif get_chess(x, y) == color:
+                q.append((x - 1, y))
+                q.append((x + 1, y))
+                q.append((x, y - 1))
+                q.append((x, y + 1))                
+
+    return True
+
+def is_placable(i, j, color):
+    global chesses
+    global NONE
+    global WHITE
+    global BLACK
+
+    if not (i, j) in chesses:
+        return True
+
+    return False
 
 def prepare_board(_offest_x = 0, _offest_y = 0):
     global board_grid
@@ -125,12 +162,21 @@ def get_chess(x, y):
     if not (x, y) in chesses:
         return NONE
 
-    return chesses[(x, y)]
+    return chesses[(x, y)].fill_color
 
 def set_chess(x, y, color):
     global chesses
     global offest_x
     global offest_y
+
+    global NONE
+    global WHITE
+    global BLACK
+
+    if color == NONE:
+        if (x, y) in chesses:
+            chesses.pop((x, y))
+            return
 
     chess = CircleShape(point_count = CIRCLE_POINTS_NUMBER)
     chess.radius = CHESS_RADIUS

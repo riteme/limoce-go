@@ -24,12 +24,10 @@ history_text.character_size = HISTORY_TEXT_SIZE
 history_text.color = HISTORY_TEXT_COLOR
 history_text.position = (HISTORY_TEXT_X, HISTORY_TEXT_Y)
 
-def place_chess(i, j):
+def update_history(i, j):
     global current_color
     global history
     global history_text
-
-    board.set_chess(i, j, current_color)
 
     color_name = "White"
     if current_color == board.BLACK:
@@ -39,10 +37,25 @@ def place_chess(i, j):
         history.pop(0)
     history_text.string = "\n".join(history)
 
+def update_chess(i, j):
+    if board.is_dead(i, j):
+        board.set_chess(i, j, board.NONE)
+
+def place_chess(i, j):
+    global current_color
+
+    if not board.is_placable(i, j, current_color):
+        return
+
+    board.set_chess(i, j, current_color)
+    update_history(i, j)
+    update_chess(i, j)
+
     current_color = board.reverse(current_color)
 
 def do_events(window):
     global current_color
+    global history
 
     for event in window.events:
         if type(event) is CloseEvent:
