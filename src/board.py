@@ -39,6 +39,9 @@ def is_inside_board(px, py):
         0 <= py and py <= 38 * BLOCK_RADIUS
     )
 
+def is_in_range(i, j):
+    return 1 <= i <= 19 and 1 <= j <= 19
+
 def to_index(px, py):
     global offest_x
     global offest_y
@@ -60,14 +63,23 @@ def is_dead(i, j):
     global BLACK
 
     color = get_chess(i, j)
+    if color == NONE:
+        return False
+
     q = deque()
+    marked = set()
     q.append((i, j))
 
     while len(q) > 0:
         x, y = q[0]
         q.popleft()
 
-        if 1 <= x and x <= 19 and 1 <= y and y <= 19:
+        if (x, y) in marked:
+            continue
+        else:
+            marked.add((x, y))
+
+        if is_in_range(x, y):
             if get_chess(x, y) == NONE:
                 return False
             elif get_chess(x, y) == color:
@@ -84,10 +96,48 @@ def is_placable(i, j, color):
     global WHITE
     global BLACK
 
-    if not (i, j) in chesses:
-        return True
+    enemy = reverse(color)
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    for dx, dy in directions:
+        x = i + dx
+        y = j + dy
+        if is_in_range(x, y) and get_chess(x, y) == enemy:
+            if is_dead(x, y):
+                return True
 
-    return False
+    return not is_dead(i, j)
+
+def clear_block(i, j):
+    global NONE
+    global WHITE
+    global BLACK
+
+    color = get_chess(i, j)
+    if color == NONE:
+        return
+
+    q = deque()
+    marked = set()
+    q.append((i, j))
+
+    while len(q) > 0:
+        x, y = q[0]
+        q.popleft()
+
+        if (x, y) in marked:
+            continue
+        else:
+            marked.add((x, y))
+
+        if is_in_range(x, y):
+            if get_chess(x, y) == NONE:
+                return False
+            elif get_chess(x, y) == color:
+                set_chess(x, y, NONE)
+                q.append((x - 1, y))
+                q.append((x + 1, y))
+                q.append((x, y - 1))
+                q.append((x, y + 1))   
 
 def prepare_board(_offest_x = 0, _offest_y = 0):
     global board_grid

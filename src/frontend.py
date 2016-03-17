@@ -1,3 +1,5 @@
+import copy
+
 import board
 
 from defs import *
@@ -15,6 +17,8 @@ current_chess = CircleShape(point_count = CIRCLE_POINTS_NUMBER)
 current_chess.position = (CURRENT_CHESS_X, CURRENT_CHESS_Y)
 current_chess.radius = CURRENT_CHESS_RADIUS
 
+current_count = 1
+
 default_font = Font.from_file(FONT)
 
 history = []
@@ -24,30 +28,102 @@ history_text.character_size = HISTORY_TEXT_SIZE
 history_text.color = HISTORY_TEXT_COLOR
 history_text.position = (HISTORY_TEXT_X, HISTORY_TEXT_Y)
 
+old_history = []
+
+def undo():
+    global current_color
+    global old_history
+    global history
+    global current_count
+
+    if len(old_history) > 0:
+        chess_data, history = old_history.pop()
+        restore_board(chess_data)
+        current_count -= 1
+
+        update_history_text()
+
+        current_color = board.reverse(current_color)
+
+def copy_board():
+    result = []
+
+    for key, value in board.chesses.items():
+        x, y = key
+        color = value.fill_color
+
+        result.append((x, y, color))
+
+    return result
+
+def restore_board(data):
+    board.chesses = {}
+
+    for x, y, color in data:
+        board.set_chess(x, y, color)
+
+def backup():
+    global old_history
+    global history
+
+    old_history.append((
+        copy_board(), copy.deepcopy(history)
+    ))
+
+def update_history_text():
+    global history_text
+    global history
+
+    history_text.string = "\n".join(history)
+
 def update_history(i, j):
     global current_color
+    global current_count
     global history
     global history_text
 
-    color_name = "White"
+    color_name = "W"
     if current_color == board.BLACK:
-        color_name = "Black"
-    history.append("{}: {:<3} {:<2}".format(color_name, str(i) + ",", j))
+        color_name = "B"
+
+    history.append("{:>3} {} {:<3} {:<2}".format(
+        current_count, color_name, str(i) + ",", j)
+    )
+
     if len(history) > HISTORY_TEXT_MAX_LINES:
         history.pop(0)
-    history_text.string = "\n".join(history)
+    
+    update_history_text()
+
+    current_count += 1
 
 def update_chess(i, j):
-    if board.is_dead(i, j):
-        board.set_chess(i, j, board.NONE)
+    color = board.get_chess(i, j)
+    enemy = board.reverse(color)
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    for dx, dy in directions:
+        x = i + dx
+        y = j + dy
+        if board.is_in_range(x, y) and board.get_chess(x, y) == enemy:
+            if board.is_dead(x, y):
+                board.clear_block(x, y)
 
 def place_chess(i, j):
     global current_color
+    global old_history
+    global current_count
+    global history
 
-    if not board.is_placable(i, j, current_color):
+    if board.get_chess(i, j) != board.NONE:
         return
 
+    backup()
+
     board.set_chess(i, j, current_color)
+    if not board.is_placable(i, j, current_color):
+        board.set_chess(i, j, board.NONE)
+        return
+
     update_history(i, j)
     update_chess(i, j)
 
@@ -65,6 +141,8 @@ def do_events(window):
             if event.released:
                 if event.code == Keyboard.ESCAPE:
                     window.close()
+                elif event.code == Keyboard.Z:
+                    undo()
 
         elif type(event) is MouseMoveEvent:
             if not board.is_inside_board(event.position.x, event.position.y):
