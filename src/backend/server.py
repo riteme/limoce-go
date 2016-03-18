@@ -25,17 +25,19 @@ def run():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind((HOST, PORT))
     sock.listen(MAX_CONNECTIONS)
-    atexit.register(sock.close)
 
-    while True:
-        conn, addr = sock.accept()
-        print("(info) New connection from {}:{}".format(
-            addr[0], addr[1]
-        ))
+    try:
+        while True:
+            conn, addr = sock.accept()
+            print("(info) New connection from {}:{}".format(
+                addr[0], addr[1]
+            ))
 
-        process(conn, addr)
+            process(conn, addr)
 
-        conn.close()
-        print("(info) Close connection from {}:{}".format(
-            addr[0], addr[1]        
-        ))
+            conn.close()
+            print("(info) Close connection from {}:{}".format(
+                addr[0], addr[1]        
+            ))
+    finally:
+        sock.close()

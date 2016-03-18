@@ -25,11 +25,17 @@ class BoardData(object):
     def set(self, i, j, chess):
         self.board[i][j] = chess
 
-
+import random
 class Solver(object):
     def __init__(self, data):
         super(Solver, self).__init__()
         self.data = data
 
     def compute(self):
-        return (1, 1)
+        x = random.randint(1, 19)
+        y = random.randint(1, 19)
+        while self.data.get(x, y) != EMPTY:
+           x = random.randint(1, 19)
+           y = random.randint(1, 19) 
+
+        return (x, y)
