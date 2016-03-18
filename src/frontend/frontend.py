@@ -1,4 +1,7 @@
+import sys
 import copy
+import socket
+import threading
 
 import board
 
@@ -151,6 +154,45 @@ def place_chess(i, j):
 
     current_color = board.reverse(current_color)
 
+def make_board_data():
+    global current_color
+
+    def symbols(color):
+        if color == board.WHITE:
+            return "W"
+        elif color == board.BLACK:
+            return "B"
+        else:
+            return "+"
+    buf = [symbols(current_color)]
+
+    for i in range(1, 20):
+        for j in range(1, 20):
+            buf.append(symbols(
+                board.get_chess(i, j)
+            ))
+
+    return "".join(buf)
+
+def furthur_require():
+    try:
+        if len(sys.argv) < 3:
+            raise RuntimeError("No parameters provided.")
+
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect((sys.argv[1], int(sys.argv[2])))
+        data = make_board_data().encode("ascii")
+        sock.send(data)
+
+        reply = sock.recv(256)
+        x, y = (reply[0], reply[1])
+        place_chess(x, y)
+
+    except Exception as e:
+        print("(error) An exception occurred when ask for furthur server:\n{}".format(
+            str(e)
+        ))
+
 def do_events(window):
     global current_color
     global history
@@ -165,6 +207,11 @@ def do_events(window):
                     window.close()
                 elif event.code == Keyboard.Z:
                     undo()
+                elif event.code == Keyboard.Q:
+                    thread = threading.Thread(
+                        target=furthur_require
+                    )
+                    thread.start()
 
         elif type(event) is MouseMoveEvent:
             if not board.is_inside_board(event.position.x, event.position.y):

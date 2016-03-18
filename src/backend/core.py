@@ -17,10 +17,19 @@ class BoardData(object):
                 self.board[-1].append(EMPTY)
 
     def is_in_range(self, i, j):
-        return 0 <= i <= 19 and 0 <= j <= 19
+        return 1 <= i <= 19 and 1 <= j <= 19
 
     def get(self, i, j):
         return self.board[i][j]
 
     def set(self, i, j, chess):
         self.board[i][j] = chess
+
+
+class Solver(object):
+    def __init__(self, data):
+        super(Solver, self).__init__()
+        self.data = data
+
+    def compute(self):
+        return (1, 1)

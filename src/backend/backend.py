@@ -1,3 +1,3 @@
-import core
-import parser
 import server
+
+server.run()
