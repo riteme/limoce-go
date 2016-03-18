@@ -6,6 +6,16 @@ from defs import *
 
 from sfml import *
 
+last_x = INVALID_X
+last_y = INVALID_Y
+
+last_block = RectangleShape()
+last_block.size = (BLOCK_RADIUS * 2, BLOCK_RADIUS * 2)
+last_block.position = (INVALID_X, INVALID_Y)
+last_block.fill_color = Color.TRANSPARENT
+last_block.outline_color = LAST_PLACED_COLOR
+last_block.outline_thickness = LAST_PLACED_THICKNESS
+
 current_block = RectangleShape()
 current_block.size = (BLOCK_RADIUS * 2, BLOCK_RADIUS * 2)
 current_block.position = (INVALID_X, INVALID_Y)
@@ -35,13 +45,17 @@ def undo():
     global old_history
     global history
     global current_count
+    global last_block
+    global last_x
+    global last_y
 
     if len(old_history) > 0:
-        chess_data, history = old_history.pop()
+        chess_data, history, last_x, last_y = old_history.pop()
         restore_board(chess_data)
         current_count -= 1
 
         update_history_text()
+        last_block.position = board.to_position(last_x, last_y, BLOCK_RADIUS)
 
         current_color = board.reverse(current_color)
 
@@ -65,9 +79,11 @@ def restore_board(data):
 def backup():
     global old_history
     global history
+    global last_x
+    global last_y
 
     old_history.append((
-        copy_board(), copy.deepcopy(history)
+        copy_board(), copy.deepcopy(history), last_x, last_y
     ))
 
 def update_history_text():
@@ -113,6 +129,9 @@ def place_chess(i, j):
     global old_history
     global current_count
     global history
+    global last_block
+    global last_x
+    global last_y
 
     if board.get_chess(i, j) != board.NONE:
         return
@@ -126,6 +145,9 @@ def place_chess(i, j):
 
     update_history(i, j)
     update_chess(i, j)
+    last_block.position = board.to_position(i, j, BLOCK_RADIUS)
+    last_x = i
+    last_y = j
 
     current_color = board.reverse(current_color)
 
@@ -180,6 +202,7 @@ if __name__ == "__main__":
         board.render_board(window)
         window.draw(current_block)
         board.render_chess(window)
+        window.draw(last_block)
 
         current_chess.fill_color = current_color
         window.draw(current_chess)
