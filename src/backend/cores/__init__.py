@@ -1,6 +1,8 @@
 import imp
+
 import cores.invalid_point
 import cores.randomize
+import cores.special_point
 
 print("(info) Core modules is loading...")
 
@@ -26,5 +28,8 @@ add_judger(cores.invalid_point.judge)
 
 imp.reload(cores.randomize)
 add_judger(cores.randomize.judge)
+
+imp.reload(cores.special_point)
+add_judger(cores.special_point.judge)
 
 print("(info) Core modules loaded.")

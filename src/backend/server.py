@@ -4,6 +4,7 @@ import copy
 import socket
 import atexit
 import threading
+import readline
 
 import core
 import parser
@@ -64,7 +65,10 @@ def run():
         command = command.strip().lower()
 
         if command == "reload":
-            imp.reload(core)
+            try:
+                imp.reload(core)
+            except Exception as e:
+                print("(error) Can't reload core modules: {}".format(str(e)))
 
         elif command == "exit":
             sys.exit()
