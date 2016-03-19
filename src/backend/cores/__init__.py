@@ -3,6 +3,14 @@ import imp
 import cores.invalid_point
 import cores.randomize
 import cores.special_point
+import cores.attack
+
+components = [
+    cores.invalid_point,
+    cores.randomize,
+    cores.randomize,
+    cores.attack
+]
 
 print("(info) Core modules is loading...")
 
@@ -20,16 +28,14 @@ def judge(data, x, y):
     for judger in judgers:
         result += judger(data, x, y)
 
+        # if the score is too low
+        if result < -9000000:
+            break
+
     return result
 
-
-imp.reload(cores.invalid_point)
-add_judger(cores.invalid_point.judge)
-
-imp.reload(cores.randomize)
-add_judger(cores.randomize.judge)
-
-imp.reload(cores.special_point)
-add_judger(cores.special_point.judge)
+for module in components:
+    imp.reload(module)
+    add_judger(module.judge)
 
 print("(info) Core modules loaded.")

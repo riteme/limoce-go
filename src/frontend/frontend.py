@@ -1,9 +1,11 @@
 import sys
+import imp
 import copy
 import socket
 import threading
 
 import board
+import config
 
 from defs import *
 
@@ -176,11 +178,12 @@ def make_board_data():
 
 def furthur_require():
     try:
-        if len(sys.argv) < 3:
-            raise RuntimeError("No parameters provided.")
+        imp.reload(config)
+        host = config.SERVER_HOST
+        port = config.SERVER_PORT
 
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect((sys.argv[1], int(sys.argv[2])))
+        sock.connect((host, port))
         data = make_board_data().encode("ascii")
         sock.send(data)
 

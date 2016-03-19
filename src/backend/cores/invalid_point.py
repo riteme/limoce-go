@@ -1,6 +1,6 @@
-import defs
+INFTY_MIN = -100000000
 
 def judge(data, x, y):
-    if data.get(x, y) != defs.EMPTY:
-        return -1000000
+    if not data.is_placable(x, y, data.current):
+        return INFTY_MIN
     return 0

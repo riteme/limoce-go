@@ -5,6 +5,7 @@ import socket
 import atexit
 import threading
 import readline
+import traceback
 
 import core
 import parser
@@ -38,12 +39,7 @@ def _run():
                 addr[0], addr[1]
             ))
 
-            try:
-                process(conn, addr)
-            except Exception as e:
-                print("(error) Error when processing: {}".format(
-                    str(e)
-                ))
+            process(conn, addr)
 
             conn.close()
             print("(info) Close connection from {}:{}".format(

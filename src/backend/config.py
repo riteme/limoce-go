@@ -1,7 +1,7 @@
 # Server
 MAX_CONNECTIONS = 16
 HOST = "127.0.0.1"
-PORT = 2778
+PORT = 2779
 BUFFER_SIZE = 65536
 
 # Parser
