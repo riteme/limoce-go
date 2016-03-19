@@ -1,4 +1,9 @@
+import random
+
 import cores
+
+import imp
+imp.reload(cores)
 
 EMPTY = 0
 WHITE = 1
@@ -25,17 +30,27 @@ class BoardData(object):
     def set(self, i, j, chess):
         self.board[i][j] = chess
 
-import random
 class Solver(object):
     def __init__(self, data):
         super(Solver, self).__init__()
         self.data = data
 
-    def compute(self):
-        x = random.randint(1, 19)
-        y = random.randint(1, 19)
-        while self.data.get(x, y) != EMPTY:
-           x = random.randint(1, 19)
-           y = random.randint(1, 19) 
+    def compute_one(self, i, j):
+        return cores.judge(self.data, i, j)
 
+    def compute(self):
+        best = []
+        for i in range(1, 20):
+            for j in range(1, 20):
+                score = self.compute_one(i, j)
+
+                if len(best) == 0:
+                    best.append((i, j, score))
+                else:
+                    if score > best[0][2]:
+                        best = [(i, j, score)]
+                    elif score == best[0][2]:
+                        best.append((i, j, score))
+
+        x, y, score = random.choice(best)
         return (x, y)

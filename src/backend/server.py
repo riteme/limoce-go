@@ -1,5 +1,9 @@
+import sys
+import imp
+import copy
 import socket
 import atexit
+import threading
 
 import core
 import parser
@@ -21,7 +25,7 @@ def process(conn, addr):
     message = "{}{}".format(chr(x), chr(y))
     conn.send(message.encode("ascii"))
 
-def run():
+def _run():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind((HOST, PORT))
     sock.listen(MAX_CONNECTIONS)
@@ -33,7 +37,12 @@ def run():
                 addr[0], addr[1]
             ))
 
-            process(conn, addr)
+            try:
+                process(conn, addr)
+            except Exception as e:
+                print("(error) Error when processing: {}".format(
+                    str(e)
+                ))
 
             conn.close()
             print("(info) Close connection from {}:{}".format(
@@ -41,3 +50,21 @@ def run():
             ))
     finally:
         sock.close()
+
+def run():
+    t = threading.Thread(
+        target=_run
+    )
+    t.deamon = True
+    t.start()
+
+    while True:
+        command = raw_input(">>> ")
+        print(command)
+        command = command.strip().lower()
+
+        if command == "reload":
+            imp.reload(core)
+
+        elif command == "exit":
+            sys.exit()
