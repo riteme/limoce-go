@@ -11,8 +11,8 @@ from defs import *
 
 from sfml import *
 
-last_x = INVALID_X
-last_y = INVALID_Y
+last_x = 0
+last_y = 0
 
 last_block = RectangleShape()
 last_block.size = (BLOCK_RADIUS * 2, BLOCK_RADIUS * 2)

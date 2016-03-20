@@ -8,6 +8,7 @@ import cores.save_friends
 import cores.connect_to_friends
 import cores.connect_to_enemy
 import cores.all_is_enemy
+import cores.is_dangerous
 import cores.attack
 import cores.nearby
 import cores.randomize
@@ -21,6 +22,7 @@ components = [
     cores.connect_to_friends,
     cores.connect_to_enemy,
     cores.all_is_enemy,
+    cores.is_dangerous,
     cores.attack,
     cores.nearby,
     cores.randomize

@@ -2,7 +2,7 @@ from defs import *
 
 from collections import deque
 
-UNIT_SCORE = -2000
+UNIT_SCORE = -1200
 SEARCH_SIZE = 10
 
 def judge(data, x, y):
