@@ -201,12 +201,8 @@ def make_board_data():
     return "".join(buf)
 
 
-def furthur_require():
+def furthur_require(host, port):
     try:
-        imp.reload(config)
-        host = config.SERVER_HOST
-        port = config.SERVER_PORT
-
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((host, port))
         data = make_board_data().encode("ascii")
@@ -232,15 +228,50 @@ def do_events(window):
 
         elif type(event) is KeyEvent:
             if event.released:
-                if event.code == Keyboard.ESCAPE:
-                    window.close()
-                elif event.code == Keyboard.Z:
+                if event.code == Keyboard.Z:
                     undo()
+
                 elif event.code == Keyboard.Q:
+                    imp.reload(config)
+
                     thread = threading.Thread(
-                        target=furthur_require
+                        target=furthur_require,
+                        args=(
+                            config.SERVER_HOST_1,
+                            config.SERVER_PORT_1
+                        )
                     )
                     thread.run()
+
+                elif event.code == Keyboard.LEFT:
+                    imp.reload(config)
+
+                    thread = threading.Thread(
+                        target=furthur_require,
+                        args=(
+                            config.SERVER_HOST_1,
+                            config.SERVER_PORT_1
+                        )
+                    )
+                    thread.run()
+
+                elif event.code == Keyboard.RIGHT:
+                    imp.reload(config)
+
+                    thread = threading.Thread(
+                        target=furthur_require,
+                        args=(
+                            config.SERVER_HOST_2,
+                            config.SERVER_PORT_2
+                        )
+                    )
+                    thread.run()
+
+                elif event.code == Keyboard.W:
+                    current_color = board.WHITE
+
+                elif event.code == Keyboard.B:
+                    current_color = board.BLACK
 
         elif type(event) is MouseMoveEvent:
             if not board.is_inside_board(event.position.x, event.position.y):
