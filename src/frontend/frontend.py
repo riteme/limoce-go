@@ -28,7 +28,7 @@ current_block.fill_color = CURRENT_SELECT_COLOR
 
 current_color = board.BLACK
 
-current_chess = CircleShape(point_count = CIRCLE_POINTS_NUMBER)
+current_chess = CircleShape(point_count=CIRCLE_POINTS_NUMBER)
 current_chess.position = (CURRENT_CHESS_X, CURRENT_CHESS_Y)
 current_chess.radius = CURRENT_CHESS_RADIUS
 
@@ -44,6 +44,7 @@ history_text.color = HISTORY_TEXT_COLOR
 history_text.position = (HISTORY_TEXT_X, HISTORY_TEXT_Y)
 
 old_history = []
+
 
 def undo():
     global current_color
@@ -64,6 +65,7 @@ def undo():
 
         current_color = board.reverse(current_color)
 
+
 def copy_board():
     result = []
 
@@ -75,11 +77,13 @@ def copy_board():
 
     return result
 
+
 def restore_board(data):
     board.chesses = {}
 
     for x, y, color in data:
         board.set_chess(x, y, color)
+
 
 def backup():
     global old_history
@@ -91,11 +95,13 @@ def backup():
         copy_board(), copy.deepcopy(history), last_x, last_y
     ))
 
+
 def update_history_text():
     global history_text
     global history
 
     history_text.string = "\n".join(history)
+
 
 def update_history(i, j):
     global current_color
@@ -113,10 +119,11 @@ def update_history(i, j):
 
     if len(history) > HISTORY_TEXT_MAX_LINES:
         history.pop(0)
-    
+
     update_history_text()
 
     current_count += 1
+
 
 def update_chess(i, j):
     color = board.get_chess(i, j)
@@ -128,6 +135,7 @@ def update_chess(i, j):
         if board.is_in_range(x, y) and board.get_chess(x, y) == enemy:
             if board.is_dead(x, y):
                 board.clear_block(x, y)
+
 
 def place_chess(i, j):
     global current_color
@@ -156,8 +164,11 @@ def place_chess(i, j):
 
     current_color = board.reverse(current_color)
 
+
 def make_board_data():
     global current_color
+    global last_x
+    global last_y
 
     def symbols(color):
         if color == board.WHITE:
@@ -174,7 +185,12 @@ def make_board_data():
                 board.get_chess(i, j)
             ))
 
+    buf.append(chr(last_x))
+    buf.append(chr(last_y))
+    buf.append(symbols(board.reverse(current_color)))
+
     return "".join(buf)
+
 
 def furthur_require():
     try:
@@ -195,6 +211,7 @@ def furthur_require():
         print("(error) An exception occurred when ask for furthur server:\n{}".format(
             str(e)
         ))
+
 
 def do_events(window):
     global current_color
@@ -239,7 +256,7 @@ if __name__ == "__main__":
 
     window = RenderWindow(
         VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE,  WINDOW_STYLE,
-        settings = setting
+        settings=setting
     )
 
     board.prepare_board(OFFEST_X, OFFEST_Y)

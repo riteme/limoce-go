@@ -10,7 +10,9 @@ EMPTY = 0
 WHITE = 1
 BLACK = 2
 
+
 class BoardData(object):
+
     def __init__(self):
         super(BoardData, self).__init__()
         self.current = EMPTY
@@ -42,7 +44,7 @@ class BoardData(object):
         color = self.get(i, j)
         if color == EMPTY:
             return False
-            
+
         q = deque()
         q.append((i, j))
 
@@ -74,7 +76,7 @@ class BoardData(object):
             return False
 
         self.set(i, j, color)
- 
+
         neighbor = [
             (-1, 0), (1, 0),
             (0, -1), (0, 1)
@@ -82,7 +84,9 @@ class BoardData(object):
         for dx, dy in neighbor:
             cx = i + dx
             cy = j + dy
-            if self.is_in_range(cx, cy) and self.is_dead(cx, cy):
+            if (self.is_in_range(cx, cy) and
+                    self.get(cx, cy) == self.reverse(color) and
+                    self.is_dead(cx, cy)):
                 return True
 
         self.set(i, j, EMPTY)
@@ -119,6 +123,7 @@ class BoardData(object):
 
 
 class Solver(object):
+
     def __init__(self, data):
         super(Solver, self).__init__()
         self.data = data

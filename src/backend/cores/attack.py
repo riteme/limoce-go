@@ -2,6 +2,7 @@ from defs import *
 
 SCORE_PER_CHESS = 200
 
+
 def judge(data, x, y):
     data.set(x, y, data.current)
 

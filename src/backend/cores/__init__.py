@@ -4,22 +4,28 @@ import cores.invalid_point
 import cores.randomize
 import cores.special_point
 import cores.attack
+import cores.nearby
+import cores.do_not_fill_itself
 
 components = [
     cores.invalid_point,
     cores.randomize,
-    cores.randomize,
-    cores.attack
+    cores.special_point,
+    cores.attack,
+    cores.nearby,
+    cores.do_not_fill_itself
 ]
 
 print("(info) Core modules is loading...")
 
 judgers = []
 
+
 def add_judger(func):
     global judgers
 
     judgers.append(func)
+
 
 def judge(data, x, y):
     global judgers
