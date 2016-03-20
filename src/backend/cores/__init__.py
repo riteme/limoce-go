@@ -1,19 +1,29 @@
 import imp
 
 import cores.invalid_point
-import cores.randomize
 import cores.special_point
+import cores.do_not_fill_itself
+import cores.do_not_kill_friends
+import cores.save_friends
+import cores.connect_to_friends
+import cores.connect_to_enemy
+import cores.all_is_enemy
 import cores.attack
 import cores.nearby
-import cores.do_not_fill_itself
+import cores.randomize
 
 components = [
     cores.invalid_point,
-    cores.randomize,
     cores.special_point,
+    cores.do_not_fill_itself,
+    cores.do_not_kill_friends,
+    cores.save_friends,
+    cores.connect_to_friends,
+    cores.connect_to_enemy,
+    cores.all_is_enemy,
     cores.attack,
     cores.nearby,
-    cores.do_not_fill_itself
+    cores.randomize
 ]
 
 print("(info) Core modules is loading...")
@@ -33,6 +43,9 @@ def judge(data, x, y):
     result = 0
     for judger in judgers:
         result += judger(data, x, y)
+
+        # if (x, y) == (15, 13):
+        #     print("(debug) {}".format(result))
 
         # if the score is too low
         if result < -9000000:

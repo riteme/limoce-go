@@ -147,14 +147,23 @@ def place_chess(i, j):
     global last_y
 
     if board.get_chess(i, j) != board.NONE:
+        print("(warn) Can't place at {}, {}".format(
+            i, j    
+        ))
         return
-
-    backup()
 
     board.set_chess(i, j, current_color)
     if not board.is_placable(i, j, current_color):
         board.set_chess(i, j, board.NONE)
+        print("(warn) Can't place at {}, {}".format(
+            i, j    
+        ))
         return
+
+    board.set_chess(i, j, board.NONE)
+    backup()
+
+    board.set_chess(i, j, current_color)
 
     update_history(i, j)
     update_chess(i, j)
@@ -231,7 +240,7 @@ def do_events(window):
                     thread = threading.Thread(
                         target=furthur_require
                     )
-                    thread.start()
+                    thread.run()
 
         elif type(event) is MouseMoveEvent:
             if not board.is_inside_board(event.position.x, event.position.y):

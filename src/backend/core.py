@@ -76,7 +76,12 @@ class BoardData(object):
             return False
 
         self.set(i, j, color)
+        result = self._is_placable(i, j, color)
+        self.set(i, j, EMPTY)
 
+        return result
+
+    def _is_placable(self, i, j, color):
         neighbor = [
             (-1, 0), (1, 0),
             (0, -1), (0, 1)
@@ -88,8 +93,6 @@ class BoardData(object):
                     self.get(cx, cy) == self.reverse(color) and
                     self.is_dead(cx, cy)):
                 return True
-
-        self.set(i, j, EMPTY)
 
         return not self.is_dead(i, j)
 
@@ -118,6 +121,79 @@ class BoardData(object):
                 q.append((x - 1, y))
                 q.append((x, y + 1))
                 q.append((x, y - 1))
+
+        return result
+
+    def get_weak_doors(self, i, j):
+        color = self.get(i, j)
+        if color == EMPTY:
+            return []
+
+        result = []
+        q = deque()
+        q.append((i, j))
+
+        marked = set()
+
+        while len(q) > 0:
+            x, y = q.popleft()
+
+            if not (x, y) in marked:
+                marked.add((x, y))
+            else:
+                continue
+
+            if not self.is_in_range(x, y):
+                continue
+
+            if self.get(x, y) == color:
+                q.append((x + 1, y))
+                q.append((x - 1, y))
+                q.append((x, y + 1))
+                q.append((x, y - 1))
+            elif self.get(x, y) == EMPTY:
+                result.append((x, y))
+
+        return result
+
+    def get_doors(self, i, j):
+        color = self.get(i, j)
+        if color == EMPTY:
+            return []
+
+        result = []
+        q = deque()
+        q.append((i, j))
+
+        marked = set()
+
+        while len(q) > 0:
+            x, y = q.popleft()
+
+            if not (x, y) in marked:
+                marked.add((x, y))
+            else:
+                continue
+
+            if not self.is_in_range(x, y):
+                continue
+
+            if self.get(x, y) == color:
+                q.append((x + 1, y))
+                q.append((x - 1, y))
+                q.append((x, y + 1))
+                q.append((x, y - 1))
+            elif self.get(x, y) == EMPTY:
+                result.append((x, y))
+
+                if self.is_in_range(x + 1, y) and self.get(x + 1, y) == color:
+                    q.append((x + 1, y))
+                if self.is_in_range(x - 1, y) and self.get(x - 1, y) == color:                
+                    q.append((x - 1, y))
+                if self.is_in_range(x, y + 1) and self.get(x, y + 1) == color:                
+                    q.append((x, y + 1))
+                if self.is_in_range(x, y - 1) and self.get(x, y - 1) == color:                
+                    q.append((x, y - 1))
 
         return result
 

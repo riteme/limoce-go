@@ -4,7 +4,7 @@ import copy
 import socket
 import atexit
 import threading
-import readline
+# import readline
 import traceback
 
 import core
@@ -24,7 +24,7 @@ def process(conn, addr):
     x, y = solver.compute()
 
     print("(info) Sending back...")
-    message = "{}{}".format(chr(x), chr(y))
+    message = "{}{}".format(chr(y), chr(x))
     conn.send(message.encode("ascii"))
 
 def _run():
@@ -68,3 +68,6 @@ def run():
 
         elif command == "exit":
             sys.exit()
+
+        else:
+            print("(error) Unknown command: {}".format(command))

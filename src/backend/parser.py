@@ -31,7 +31,7 @@ def parse_data(data):
             for j in range(1, 20):
                 chess = symbols[data[offest]]
 
-                result.set(i, j, chess)
+                result.set(j, i, chess)
 
                 offest += 1
 
@@ -47,6 +47,6 @@ def parse_data(data):
                     "Invalid history: {}, {}: {}".format(i, j, chess)
                 )
 
-            result.history.append((i, j, chess))
+            result.history.append((j, i, chess))
 
     return result

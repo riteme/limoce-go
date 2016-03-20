@@ -1,6 +1,6 @@
 from defs import *
 
-SCORE_PER_CHESS = 200
+SCORE_PER_CHESS = 1000
 
 
 def judge(data, x, y):
@@ -14,7 +14,9 @@ def judge(data, x, y):
     for dx, dy in neighbor:
         cx = x + dx
         cy = y + dy
-        if data.is_in_range(cx, cy) and data.is_dead(cx, cy):
+        if (data.is_in_range(cx, cy) and
+            data.get(cx, cy) == data.reverse(data.current) and
+            data.is_dead(cx, cy)):
             attacked += len(
                 data.get_connected_component(cx, cy)
             )
