@@ -14,17 +14,17 @@ import cores.nearby
 import cores.randomize
 
 components = [
-    # cores.invalid_point,
-    # cores.special_point,
-    # cores.do_not_fill_itself,
-    # cores.do_not_kill_friends,
-    # cores.save_friends,
-    # cores.connect_to_friends,
-    # cores.connect_to_enemy,
-    # cores.all_is_enemy,
-    # cores.is_dangerous,
-    # cores.attack,
-    # cores.nearby,
+    cores.invalid_point,
+    cores.special_point,
+    cores.do_not_fill_itself,
+    cores.do_not_kill_friends,
+    cores.save_friends,
+    cores.connect_to_friends,
+    cores.connect_to_enemy,
+    cores.all_is_enemy,
+    cores.is_dangerous,
+    cores.attack,
+    cores.nearby,
     cores.randomize
 ]
 
