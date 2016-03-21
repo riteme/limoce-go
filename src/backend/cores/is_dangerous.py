@@ -1,4 +1,4 @@
-UNIT_SCORE = -1000
+UNIT_SCORE = -4000
 DANGEROUS_LIMIT = 1
 
 def judge(data, x, y):

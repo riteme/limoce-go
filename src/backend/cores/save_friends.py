@@ -1,8 +1,8 @@
 from defs import *
 
 UNIT_SCORE = 2000
-CHESS_SCORE = 600
-DANGEROUS_LIMIT = 1
+CHESS_SCORE = 700
+DANGEROUS_LIMIT = 2
 
 def judge(data, x, y):
     score = 0
