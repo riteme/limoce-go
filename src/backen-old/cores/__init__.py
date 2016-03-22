@@ -11,6 +11,7 @@ import cores.all_is_enemy
 import cores.is_dangerous
 import cores.attack
 import cores.nearby
+import cores.analyze
 import cores.randomize
 
 components = [
@@ -25,6 +26,7 @@ components = [
     cores.is_dangerous,
     cores.attack,
     cores.nearby,
+    cores.analyze,
     cores.randomize
 ]
 
@@ -46,8 +48,8 @@ def judge(data, x, y):
     for judger in judgers:
         result += judger(data, x, y)
 
-        if (x, y) == (11, 4):
-            print("(debug) 11, 4: {}".format(result))
+        # if (x, y) == (5, 2):
+        #     print("(debug) {}".format(result))
 
         # if the score is too low
         if result < -9000000:

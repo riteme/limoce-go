@@ -1,6 +1,6 @@
 from defs import *
 
-UNIT_SCORE = -4500
+UNIT_SCORE = -6000
 DANGEROUS_LIMIT = 1
 
 def judge(data, x, y):

@@ -1,6 +1,6 @@
-from defs import *
-
 import math
+
+from defs import *
 
 NEARBY_RADIUS = 5
 UNIT_SCORE = 30

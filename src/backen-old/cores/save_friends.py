@@ -1,8 +1,9 @@
 from defs import *
 
-UNIT_SCORE = 3000
-CHESS_SCORE = 650
-DANGEROUS_LIMIT = 2
+UNIT_SCORE = 70000
+CHESS_SCORE = 30000
+DANGEROUS_SCORE = 50000
+DANGEROUS_LIMIT = 1
 
 def judge(data, x, y):
     score = 0
@@ -22,7 +23,9 @@ def judge(data, x, y):
                 saved = len(data.get_connected_component(cx, cy))
                 data.set(x, y, data.current)
                 now = len(data.get_weak_doors(x, y))
-                score += (now - len(doors)) * UNIT_SCORE + saved * CHESS_SCORE
+                score += ((now - len(doors)) * UNIT_SCORE +
+                    saved * CHESS_SCORE +
+                    (DANGEROUS_LIMIT - len(doors)) * DANGEROUS_SCORE)
                 data.set(x, y, EMPTY)
 
     return score

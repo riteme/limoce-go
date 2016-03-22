@@ -1,6 +1,6 @@
 from defs import *
 
-UNIT_SCORE = -6000
+UNIT_SCORE = -8000
 DANGEROUS_LIMIT = 5
 
 def fill_one(data, x, y):
@@ -17,7 +17,7 @@ def fill_one(data, x, y):
             flag = False
 
     if flag:
-        return -10000
+        return -100000
     else:
         return 0
 
@@ -37,7 +37,7 @@ def judge(data, x, y):
             origin += len(doors)
 
     if origin > DANGEROUS_LIMIT:
-        return 0
+        return score
 
     data.set(x, y, data.current)
 

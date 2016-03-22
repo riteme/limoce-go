@@ -2,8 +2,8 @@ import random
 
 from defs import *
 
-UNIT_SCORE = 100
-CLIP_SIZE = 5
+UNIT_SCORE = 500
+CLIP_RADIUS = 1
 
 def correct_bound(v):
     if v < 1:
@@ -13,12 +13,12 @@ def correct_bound(v):
 
     return v
 
-def get_clip(data, x, y, size):
+def get_clip(data, x, y):
     result = []
-    left = correct_bound(x - size / 2)
-    right = correct_bound(x + size / 2)
-    top = correct_bound(y - size / 2)
-    bottom = correct_bound(y + size / 2)
+    left = correct_bound(x - CLIP_RADIUS)
+    right = correct_bound(x + CLIP_RADIUS)
+    top = correct_bound(y - CLIP_RADIUS)
+    bottom = correct_bound(y + CLIP_RADIUS)
 
     for i in range(left, right + 1):
         for j in range(top,  bottom + 1):
@@ -34,7 +34,7 @@ def analyze(data):
 
     for i in range(1, 20):
         for j in range(1, 20):
-            clip = get_clip(data, i, j, CLIP_SIZE)
+            clip = get_clip(data, i, j)
             black_count = clip.count(BLACK)
             white_count = clip.count(WHITE)
             status = None

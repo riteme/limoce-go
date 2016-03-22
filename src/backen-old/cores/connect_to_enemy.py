@@ -19,7 +19,7 @@ def neighbor(data, x, y):
     return count * UNIT_SCORE
 
 def small_jump(data, x, y):
-    UNIT_SCORE = 275
+    UNIT_SCORE = 300
 
     neighbors = [
         (-1, -1), (1, 1),
@@ -37,7 +37,7 @@ def small_jump(data, x, y):
     return count * UNIT_SCORE
 
 def middle_jump(data, x, y):
-    UNIT_SCORE = 150
+    UNIT_SCORE = 100
 
     neighbors = [
         (1,  -2), (1,  2),
