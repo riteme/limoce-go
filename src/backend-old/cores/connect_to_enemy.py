@@ -1,3 +1,5 @@
+from defs import *
+
 def neighbor(data, x, y):
     UNIT_SCORE = 300
 

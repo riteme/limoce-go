@@ -1,3 +1,5 @@
+from defs import *
+
 UNIT_SCORE = -4500
 DANGEROUS_LIMIT = 1
 

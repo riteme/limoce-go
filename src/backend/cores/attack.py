@@ -1,7 +1,9 @@
 from defs import *
 
-SCORE_PER_CHESS = 12000
-UNIT_SCORE = 2000
+SCORE_PER_CHESS = 150000
+UNIT_SCORE = 20000
+DANGEROUS_LIMIT = 4
+DANGEROUS_SCORE = 20000
 
 def judge(data, x, y):
     score = 0
@@ -26,10 +28,14 @@ def judge(data, x, y):
                 data.set(x, y, EMPTY)
                 origin_door_number = len(data.get_weak_doors(cx, cy))
 
-                if door_number < origin_door_number:
+                data.set(x, y, data.current)
+                if door_number < origin_door_number and len(data.get_weak_doors(x, y)) > 1:
                     score += (origin_door_number - door_number) * UNIT_SCORE
 
+                    if door_number <= DANGEROUS_LIMIT:
+                        offest = DANGEROUS_LIMIT - door_number + 1
+                        score += offest * DANGEROUS_SCORE
+                    
         data.set(x, y, EMPTY)
-
 
     return attacked * SCORE_PER_CHESS + score

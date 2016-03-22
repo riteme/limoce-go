@@ -1,3 +1,5 @@
+from defs import *
+
 import math
 
 NEARBY_RADIUS = 5

@@ -1,3 +1,5 @@
+from defs import *
+
 INFTY_MIN = -100000000
 
 def judge(data, x, y):
@@ -25,6 +27,11 @@ def judge(data, x, y):
         # print("(debug) Forbidden")
         # print("(debug) last: {}".format(data.history[-1][:2]))
         if data.history[-1][:2] in neighbors:
-            return INFTY_MIN
+            cx, cy = data.history[-1][:2]
+            data.set(x, y, data.current)
+            if len(data.get_weak_doors(cx, cy)) == 0:
+                data.set(x, y, EMPTY)
+                return INFTY_MIN
+            data.set(x, y, EMPTY)
 
     return 0

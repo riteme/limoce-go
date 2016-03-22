@@ -46,8 +46,8 @@ def judge(data, x, y):
     for judger in judgers:
         result += judger(data, x, y)
 
-        # if (x, y) == (15, 13):
-        #     print("(debug) {}".format(result))
+        if (x, y) == (11, 4):
+            print("(debug) 11, 4: {}".format(result))
 
         # if the score is too low
         if result < -9000000:

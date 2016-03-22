@@ -1,3 +1,5 @@
+from defs import *
+
 import random
 
 RANDOMIZE_MIN = -200

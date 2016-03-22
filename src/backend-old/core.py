@@ -90,8 +90,8 @@ class BoardData(object):
             cx = i + dx
             cy = j + dy
             if (self.is_in_range(cx, cy) and
-                    self.get(cx, cy) == self.reverse(color) and
-                    self.is_dead(cx, cy)):
+                self.get(cx, cy) == self.reverse(color) and
+                self.is_dead(cx, cy)):
                 return True
 
         return not self.is_dead(i, j)

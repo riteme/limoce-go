@@ -2,7 +2,7 @@ import random
 
 from defs import *
 
-UNIT_SCORE = 50
+UNIT_SCORE = 100
 CLIP_SIZE = 5
 
 def correct_bound(v):

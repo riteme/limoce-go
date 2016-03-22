@@ -2,7 +2,7 @@ from defs import *
 
 from collections import deque
 
-UNIT_SCORE = -8000
+UNIT_SCORE = -5000
 SEARCH_SIZE = 15
 
 
