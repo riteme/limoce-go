@@ -2,7 +2,7 @@ from defs import *
 
 from collections import deque
 
-UNIT_SCORE = -1500
+UNIT_SCORE = -3000
 SEARCH_SIZE = 20
 
 def judge(data, x, y):
@@ -38,5 +38,5 @@ def judge(data, x, y):
         count += 1
 
     if friend_count * 1.5 < enemy_count:
-        return UNIT_SCORE
+        return UNIT_SCORE * enemy_count
     return 0

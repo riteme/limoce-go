@@ -1,6 +1,6 @@
 from defs import *
 
-UNIT_SCORE = -1500
+UNIT_SCORE = -6000
 DANGEROUS_LIMIT = 5
 
 def fill_one(data, x, y):
@@ -17,7 +17,7 @@ def fill_one(data, x, y):
             flag = False
 
     if flag:
-        return -700
+        return -10000
     else:
         return 0
 

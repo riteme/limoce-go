@@ -1,6 +1,6 @@
 from defs import *
 
-SCORE_PER_CHESS = 3500
+SCORE_PER_CHESS = 10000
 
 
 def judge(data, x, y):

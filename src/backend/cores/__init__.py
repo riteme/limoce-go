@@ -11,6 +11,7 @@ import cores.all_is_enemy
 import cores.is_dangerous
 import cores.attack
 import cores.nearby
+import cores.analyze
 import cores.randomize
 
 components = [
@@ -25,6 +26,7 @@ components = [
     cores.is_dangerous,
     cores.attack,
     cores.nearby,
+    cores.analyze,
     cores.randomize
 ]
 
