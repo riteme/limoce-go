@@ -3,7 +3,7 @@ import math
 from defs import *
 
 NEARBY_RADIUS = 5
-UNIT_SCORE = 30
+UNIT_SCORE = 50
 
 
 def judge(data, x, y):

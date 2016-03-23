@@ -37,7 +37,7 @@ def small_jump(data, x, y):
     return count * UNIT_SCORE
 
 def middle_jump(data, x, y):
-    UNIT_SCORE = 100
+    UNIT_SCORE = 500
 
     neighbors = [
         (1,  -2), (1,  2),

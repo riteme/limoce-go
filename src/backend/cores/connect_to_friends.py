@@ -1,7 +1,7 @@
 from defs import *
 
 def neighbor(data, x, y):
-    UNIT_SCORE = 150
+    UNIT_SCORE = 500
 
     neighbors = [
         (-1, 0), (1, 0),
@@ -19,7 +19,7 @@ def neighbor(data, x, y):
     return count * UNIT_SCORE
 
 def small_jump(data, x, y):
-    UNIT_SCORE = 200
+    UNIT_SCORE = 250
 
     neighbors = [
         (-1, -1), (1, 1),
@@ -37,7 +37,7 @@ def small_jump(data, x, y):
     return count * UNIT_SCORE
 
 def middle_jump(data, x, y):
-    UNIT_SCORE = 150
+    UNIT_SCORE = 550
 
     neighbors = [
         (1,  -2,  0, -1), (1,  2,  0, 1),
