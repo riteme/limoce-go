@@ -236,6 +236,13 @@ def set_chess(x, y, color):
     )
     chess.fill_color = color
 
+    if chess.fill_color == WHITE:
+        chess.outline_color = CHESS_OUTLINE_COLOR
+        chess.outline_thickness = CHESS_OUTLINE
+    else:
+        chess.outline_color = BLACK
+        chess.outline_thickness = CHESS_OUTLINE
+
     chesses[(x, y)] = chess
 
 def render_board(window):
