@@ -168,7 +168,7 @@ def place_chess(i, j):
     update_history(i, j)
     update_chess(i, j)
     # last_block.position = board.to_position(i, j, BLOCK_RADIUS)
-    if last_x != 0 and last_y != 0:
+    if last_x != 0 and last_y != 0 and (last_x, last_y) in board.chesses:
         if board.chesses[(last_x, last_y)].fill_color == board.WHITE:
             board.chesses[(last_x, last_y)].outline_color = CHESS_OUTLINE_COLOR
             board.chesses[(last_x, last_y)].outline_thickness = CHESS_OUTLINE
