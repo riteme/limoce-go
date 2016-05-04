@@ -221,6 +221,7 @@ def furthur_require(host, port):
         reply = sock.recv(256)
         x, y = (reply[0], reply[1])
         place_chess(x, y)
+        sock.close()
 
     except Exception as e:
         print("(error) An exception occurred when ask for furthur server:\n{}".format(
